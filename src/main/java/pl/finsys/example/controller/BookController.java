@@ -23,16 +23,22 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public Book createUser(@RequestBody @Valid final Book book) {
+    @RequestMapping(value = "/books", method = RequestMethod.POST)
+    public Book saveBook(@RequestBody @Valid final Book book) {
         LOGGER.debug("Received request to create the {}", book);
         return bookService.save(book);
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public List<Book> listBook() {
+    @RequestMapping(value = "/books", method = RequestMethod.GET)
+    public List<Book> listBooks() {
         LOGGER.debug("Received request to list all users");
         return bookService.getList();
+    }
+
+    @RequestMapping(value = "/books/{id}", method = RequestMethod.GET)
+    public Book listBooks(@PathVariable String bookid) {
+        LOGGER.debug("Received request to list a specific book");
+        return bookService.getBook(bookid);
     }
 
     @ExceptionHandler

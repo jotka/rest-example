@@ -32,7 +32,7 @@ public class BookControllerTest {
     public void shouldCreateUser() throws Exception {
         final Book savedBook = stubServiceToReturnStoredUser();
         final Book book = UserUtil.createUser();
-        Book returnedBook = bookController.createUser(book);
+        Book returnedBook = bookController.saveBook(book);
         // verify book was passed to BookService
         verify(bookService, times(1)).save(book);
         assertEquals("Returned book should come from the service", savedBook, returnedBook);
@@ -48,7 +48,7 @@ public class BookControllerTest {
     @Test
     public void shouldListAllUsers() throws Exception {
         stubServiceToReturnExistingUsers(10);
-        Collection<Book> books = bookController.listBook();
+        Collection<Book> books = bookController.listBooks();
         assertNotNull(books);
         assertEquals(10, books.size());
         // verify user was passed to BookService

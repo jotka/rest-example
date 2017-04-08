@@ -10,4 +10,5 @@ public interface BookService {
 
     List<Book> getList();
 
+    Book getBook(String bookid);
 }

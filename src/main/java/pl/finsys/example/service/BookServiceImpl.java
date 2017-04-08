@@ -45,4 +45,9 @@ public class BookServiceImpl implements BookService {
         return repository.findAll();
     }
 
+    @Override
+    public Book getBook(String bookId) {
+        return repository.findOne(bookId);
+    }
+
 }
