@@ -1,5 +1,6 @@
 package pl.finsys.example.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import pl.finsys.example.domain.Book;
 import pl.finsys.example.repository.BookRepository;
 import pl.finsys.example.service.exception.BookAlreadyExistsException;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -21,14 +21,14 @@ public class BookServiceImpl implements BookService {
     private static final Logger LOGGER = LoggerFactory.getLogger(BookServiceImpl.class);
     private final BookRepository repository;
 
-    @Inject
+    @Autowired
     public BookServiceImpl(final BookRepository repository) {
         this.repository = repository;
     }
 
     @Override
     @Transactional
-    public Book save(@NotNull @Valid final Book book) {
+    public Book saveBook(@NotNull @Valid final Book book) {
         LOGGER.debug("Creating {}", book);
         Book existing = repository.findOne(book.getId());
         if (existing != null) {
@@ -46,8 +46,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book getBook(String bookId) {
+    public Book getBook(Long bookId) {
         return repository.findOne(bookId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteBook(final Long bookId) {
+        LOGGER.debug("deleting {}", bookId);
+        repository.delete(bookId);
     }
 
 }

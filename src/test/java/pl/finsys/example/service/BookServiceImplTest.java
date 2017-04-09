@@ -32,15 +32,15 @@ public class BookServiceImplTest {
     @Test
     public void shouldSaveNewUser_GivenThereDoesNotExistOneWithTheSameId_ThenTheSavedUserShouldBeReturned() throws Exception {
         final Book savedBook = stubRepositoryToReturnUserOnSave();
-        final Book book = UserUtil.createUser();
-        final Book returnedBook = bookService.save(book);
+        final Book book = UserUtil.createBook();
+        final Book returnedBook = bookService.saveBook(book);
         // verify repository was called with book
         verify(bookRepository, times(1)).save(book);
         assertEquals("Returned book should come from the repository", savedBook, returnedBook);
     }
 
     private Book stubRepositoryToReturnUserOnSave() {
-        Book book = UserUtil.createUser();
+        Book book = UserUtil.createBook();
         when(bookRepository.save(any(Book.class))).thenReturn(book);
         return book;
     }
@@ -49,7 +49,7 @@ public class BookServiceImplTest {
     public void shouldSaveNewUser_GivenThereExistsOneWithTheSameId_ThenTheExceptionShouldBeThrown() throws Exception {
         stubRepositoryToReturnExistingUser();
         try {
-            bookService.save(UserUtil.createUser());
+            bookService.saveBook(UserUtil.createBook());
             fail("Expected exception");
         } catch (BookAlreadyExistsException ignored) {
         }
@@ -57,7 +57,7 @@ public class BookServiceImplTest {
     }
 
     private void stubRepositoryToReturnExistingUser() {
-        final Book book = UserUtil.createUser();
+        final Book book = UserUtil.createBook();
         when(bookRepository.findOne(book.getId())).thenReturn(book);
     }
 
@@ -71,7 +71,7 @@ public class BookServiceImplTest {
     }
 
     private void stubRepositoryToReturnExistingUsers(int howMany) {
-        when(bookRepository.findAll()).thenReturn(UserUtil.createUserList(howMany));
+        when(bookRepository.findAll()).thenReturn(UserUtil.createBookList(howMany));
     }
 
     @Test

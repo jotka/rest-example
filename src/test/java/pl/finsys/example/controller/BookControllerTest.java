@@ -31,16 +31,16 @@ public class BookControllerTest {
     @Test
     public void shouldCreateUser() throws Exception {
         final Book savedBook = stubServiceToReturnStoredUser();
-        final Book book = UserUtil.createUser();
+        final Book book = UserUtil.createBook();
         Book returnedBook = bookController.saveBook(book);
         // verify book was passed to BookService
-        verify(bookService, times(1)).save(book);
+        verify(bookService, times(1)).saveBook(book);
         assertEquals("Returned book should come from the service", savedBook, returnedBook);
     }
 
     private Book stubServiceToReturnStoredUser() {
-        final Book book = UserUtil.createUser();
-        when(bookService.save(any(Book.class))).thenReturn(book);
+        final Book book = UserUtil.createBook();
+        when(bookService.saveBook(any(Book.class))).thenReturn(book);
         return book;
     }
 
@@ -56,7 +56,7 @@ public class BookControllerTest {
     }
 
     private void stubServiceToReturnExistingUsers(int howMany) {
-        when(bookService.getList()).thenReturn(UserUtil.createUserList(howMany));
+        when(bookService.getList()).thenReturn(UserUtil.createBookList(howMany));
     }
 
 }

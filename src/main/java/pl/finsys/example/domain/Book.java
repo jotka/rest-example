@@ -1,22 +1,18 @@
 package pl.finsys.example.domain;
 
-import com.google.common.base.Objects;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.UUID;
 
 @Entity
 public class Book {
 
     @Id
     @NotNull
-    @Size(max = 64)
     @Column(name = "id", nullable = false, updatable = false)
-    private String id;
+    private Long id;
 
     @NotNull
     @Size(max = 64)
@@ -28,16 +24,16 @@ public class Book {
     @Column(name = "title", nullable = false)
     private String title;
 
-    Book() {
+    public Book() {
     }
 
-    public Book(final String author, final String title) {
-        this.id = UUID.randomUUID().toString();
+    public Book(final Long id, final String author, final String title) {
+        this.id = id;
         this.title = title;
         this.author = author;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -51,14 +47,5 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this)
-                .add("id", id)
-                .add("author", author)
-                .add("title", title)
-                .toString();
     }
 }
