@@ -1,5 +1,6 @@
 package pl.finsys.example.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.finsys.example.domain.Book;
 import pl.finsys.example.service.BookService;
@@ -23,28 +24,31 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @RequestMapping(value = "/books", method = RequestMethod.POST)
+    @RequestMapping(value = "/books", method = RequestMethod.POST, consumes = {"application/json"})
     public Book saveBook(@RequestBody @Valid final Book book) {
         LOGGER.debug("Received request to create the {}", book);
         return bookService.saveBook(book);
     }
 
-    @RequestMapping(value = "/books", method = RequestMethod.GET)
+    @ApiOperation(value = "Retrieve a list of books.",
+            responseContainer = "List")
+    @RequestMapping(value = "/books", method = RequestMethod.GET, produces = {"application/json"})
     public List<Book> listBooks() {
-        LOGGER.debug("Received request to list all users");
+        LOGGER.debug("Received request to list all books");
         return bookService.getList();
     }
 
-    @RequestMapping(value = "/books/{id}", method = RequestMethod.GET)
-    public Book listBooks(@PathVariable Long bookid) {
+    @RequestMapping(value = "/books/{id}", method = RequestMethod.GET, produces = {"application/json"})
+    public @ResponseBody
+    Book singleBook(@PathVariable Long id) {
         LOGGER.debug("Received request to list a specific book");
-        return bookService.getBook(bookid);
+        return bookService.getBook(id);
     }
 
     @RequestMapping(value = "/books/{id}", method = RequestMethod.DELETE)
-    public void deleteBook(@PathVariable Long bookid) {
+    public void deleteBook(@PathVariable Long id) {
         LOGGER.debug("Received request to delete a specific book");
-        bookService.deleteBook(bookid);
+        bookService.deleteBook(id);
     }
 
     @ExceptionHandler
