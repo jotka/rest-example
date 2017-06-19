@@ -17,3 +17,6 @@ curl -s http://localhost:8080/api/v1/namespaces/default/services -XPOST -H 'Cont
 
 curl -s http://localhost:8080/apis/extensions/v1beta1/namespaces/default/deployments -XPOST -H 'Content-Type: application/json' -d@deployment.json
 
+
+https://192.168.99.100:8443/api/v1/namespaces/default/pods
+curl http://localhost:8080/api/v1/namespaces/default/pods
